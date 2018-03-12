@@ -1,0 +1,21 @@
+
+在tf（fat格式）卡根目录放入rtthread.bin
+
+在uboot中修改启动参数
+set bootcmd fatload mmc 0 0xa0000000 rtthread.bin\; go 0xa0000000
+sa
+reset
+
+rtthread启动好
+可以使用help查看rtthread支持的命令
+
+使用wifi命令加入wifi
+wifi join ssid password
+使用ifconfig命令查看本机IP(如192.168.11.148)
+
+使用mjpeg命令启动摄像头
+mjpeg start
+
+使用web浏览器访问http://本机IP(如http://192.168.11.148)
+
+mjpeg stop关闭摄像头

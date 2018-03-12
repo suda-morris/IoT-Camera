@@ -1,0 +1,28 @@
+请准备一张tf卡，并把rtthread.bin放到tf卡根目录，然后以putty等方式打开iot camera的串口；
+
+重启iot camera，在uboot的倒计时提示时输入任意键，停止，进入uboot命令行。
+
+请在uboot命令行中输入一下命令(#行是注释)：
+
+# 把tf卡中的rtthread.bin加载到0xA0000000内存地址中
+
+fatload mmc 0 0xA0000000 rtthread.bin
+
+# probe flash
+sf probe 0
+
+# 擦除flash 4M位置起始后的2M空间
+sf erase 400000 200000
+# 把0xA0000000处，2M内存数据写入到flash 4M位置
+sf write 0xA0000000 400000 200000
+# 设置启动的命令
+set bootcmd 'sf probe 0; sf read 0xA0000000 400000 200000; go 0xA0000000'
+# 保存启动命令
+save
+
+重启后即可运行flash上的rtthread.bin，它会自动打开一个iot名字的Wi-Fi AP，密码是iotcamera；
+
+你可以用PC或手机连上这个AP，然后用浏览器浏览
+http://192.168.169.1
+
+上面有mjpeg的视频流。
